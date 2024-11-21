@@ -1,15 +1,15 @@
-CREATE TABLE SupersSales_Raw_Data (
+CREATE TABLE SuperSales_Raw_Data (
     Row_ID INT NOT NULL,
     Order_ID VARCHAR(50) NOT NULL,
     Order_Date DATE NOT NULL,
     Order_Priority VARCHAR(20),
     Order_Quantity INT,
-    Sales DECIMAL(10, 2),
-    Discount DECIMAL(5, 2),
+    Sales DECIMAL(10, 4),
+    Discount DECIMAL(10, 4),
     Ship_Mode VARCHAR(50),
-    Profit DECIMAL(10, 2),
-    Unit_Price DECIMAL(10, 2),
-    Shipping_Cost DECIMAL(10, 2),
+    Profit DECIMAL(10, 4),
+    Unit_Price DECIMAL(10, 4),
+    Shipping_Cost DECIMAL(10, 4),
     Customer_Name VARCHAR(100),
     Province VARCHAR(100),
     Region VARCHAR(50),
@@ -18,7 +18,7 @@ CREATE TABLE SupersSales_Raw_Data (
     Product_Sub_Category VARCHAR(50),
     Product_Name VARCHAR(200),
     Product_Container VARCHAR(50),
-    Product_Base_Margin DECIMAL(5, 2),
+    Product_Base_Margin DECIMAL(10, 4),
     Ship_Date DATE,
     PRIMARY KEY (Row_ID)
 );
