@@ -1,5 +1,5 @@
 -- Date table
-CREATE TABLE Date_Dim (
+CREATE TABLE Order_Date_Dim (
     Date_ID INT PRIMARY KEY AUTO_INCREMENT,
     Full_Date DATE NOT NULL,
     Year INT NOT NULL,
@@ -9,7 +9,16 @@ CREATE TABLE Date_Dim (
     Weekday VARCHAR(10) NOT NULL
 );
 
-INSERT INTO Date_Dim (Full_Date, Year, Quarter, Month, Day, Weekday)
+CREATE TABLE Ship_Date_Dim (
+    Date_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Full_Date DATE NOT NULL,
+    Year INT NOT NULL,
+    Quarter INT NOT NULL,
+    Month INT NOT NULL,
+    Day INT NOT NULL,
+    Weekday VARCHAR(10) NOT NULL
+);
+INSERT INTO Order_Date_Dim (Full_Date, Year, Quarter, Month, Day, Weekday)
 SELECT DISTINCT
     `Order Date` AS Full_Date,
     YEAR(`Order Date`) AS Year,
@@ -19,10 +28,10 @@ SELECT DISTINCT
     DAYNAME(`Order Date`) AS Weekday
 FROM superstoresales_main_new
 WHERE `Order Date` IS NOT NULL
-  AND `Order Date` NOT IN (SELECT Full_Date FROM Date_Dim);
+  AND `Order Date` NOT IN (SELECT Full_Date FROM Order_Date_Dim);
 
 -- Insert unique Ship Dates
-INSERT INTO Date_Dim (Full_Date, Year, Quarter, Month, Day, Weekday)
+INSERT INTO Ship_Date_Dim (Full_Date, Year, Quarter, Month, Day, Weekday)
 SELECT DISTINCT
     `Ship Date` AS Full_Date,
     YEAR(`Ship Date`) AS Year,
@@ -32,7 +41,7 @@ SELECT DISTINCT
     DAYNAME(`Ship Date`) AS Weekday
 FROM superstoresales_main_new
 WHERE `Ship Date` IS NOT NULL
-  AND `Ship Date` NOT IN (SELECT Full_Date FROM Date_Dim);
+  AND `Ship Date` NOT IN (SELECT Full_Date FROM Ship_Date_Dim);
   
   -- Customer table
 CREATE TABLE Customer_Dim (
@@ -105,8 +114,8 @@ CREATE TABLE Sales_Fact (
     FOREIGN KEY (Order_ID) REFERENCES Order_Dim(Order_ID),
     FOREIGN KEY (Customer_ID) REFERENCES Customer_Dim(Customer_ID),
     FOREIGN KEY (Product_ID) REFERENCES Product_Dim(Product_ID),
-    FOREIGN KEY (Order_Date_ID) REFERENCES Date_Dim(Date_ID),
-    FOREIGN KEY (Ship_Date_ID) REFERENCES Date_Dim(Date_ID)
+    FOREIGN KEY (Order_Date_ID) REFERENCES Order_Date_Dim(Date_ID),
+    FOREIGN KEY (Ship_Date_ID) REFERENCES Ship_Date_Dim(Date_ID)
 );
 
 
