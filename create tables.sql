@@ -26,19 +26,21 @@ CREATE TABLE CustomerDim (
     FOREIGN KEY (SegmentID) REFERENCES CustomerSegment(SegmentID)
 );
 
--- Product Subcategory Dimension
-CREATE TABLE ProductSubcategory (
-    SubcategoryID INT AUTO_INCREMENT PRIMARY KEY,
-    SubcategoryName VARCHAR(255) UNIQUE
-);
-
 -- Product Category Dimension
 CREATE TABLE ProductCategory (
     CategoryID INT AUTO_INCREMENT PRIMARY KEY,
     CategoryName VARCHAR(255) UNIQUE
 );
 
--- Update Product Dimension to Reference Subcategory Directly
+-- Product Subcategory Dimension with a Foreign Key to Product Category
+CREATE TABLE ProductSubcategory (
+    SubcategoryID INT AUTO_INCREMENT PRIMARY KEY,
+    SubcategoryName VARCHAR(255) UNIQUE,
+    CategoryID INT,
+    FOREIGN KEY (CategoryID) REFERENCES ProductCategory(CategoryID)
+);
+
+-- Product Dimension
 CREATE TABLE ProductDim (
     ProductID INT AUTO_INCREMENT PRIMARY KEY,
     ProductName VARCHAR(255),
@@ -50,13 +52,11 @@ CREATE TABLE ProductDim (
     FOREIGN KEY (SubcategoryID) REFERENCES ProductSubcategory(SubcategoryID)
 );
 
-
 -- Region Dimension
 CREATE TABLE RegionDim (
     RegionID INT AUTO_INCREMENT PRIMARY KEY,
     RegionName VARCHAR(255) UNIQUE
 );
-
 
 -- Province Dimension
 CREATE TABLE Province (
@@ -94,4 +94,3 @@ CREATE TABLE SalesFact (
     FOREIGN KEY (RegionID) REFERENCES RegionDim(RegionID),
     FOREIGN KEY (ShippingID) REFERENCES ShippingDim(ShippingID)
 );
-

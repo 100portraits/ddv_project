@@ -25,8 +25,10 @@ SELECT DISTINCT `Product Category`
 FROM superstoresales_main_new;
 
 -- 5. product subcategory
-INSERT INTO ProductSubcategory (SubcategoryName)
-SELECT DISTINCT `Product Sub-Category`
+INSERT INTO ProductSubcategory (SubcategoryName, CategoryID)
+SELECT DISTINCT 
+    `Product Sub-Category`,
+    (SELECT CategoryID FROM ProductCategory WHERE CategoryName = `Product Category`)
 FROM superstoresales_main_new;
 
 
